@@ -1,5 +1,5 @@
 import React, { useState} from "react"
-import { List } from "./components/List"
+import { List } from "./components/List" 
 
 const App: React.FC = () => {
   const [arrList, setArrList] = useState<string[]>(['Trees', 'Plants', 'Flowers'])
@@ -13,8 +13,20 @@ const App: React.FC = () => {
         return <a className="carousel-item"  key={item.toString()} href={item.toString()}>
                 <img alt='' src={`https://lorempixel.com/250/250/nature/${item}`}/>
               </a>
-      })
+      })  
+
   }
+
+
+  const data = async () => {
+    await fetch('https://ghibliapi.herokuapp.com/people')
+      .then(res=> res.json())
+      .then(res=> console.log(res))
+      .catch(err=> console.log(err))
+  } 
+
+console.log(data())
+
   
 const mapperarr = (data: Array<string>) => data.map(item => <p key={Math.random()}>{item}</p>)
 
@@ -35,4 +47,4 @@ const mapperarr = (data: Array<string>) => data.map(item => <p key={Math.random(
     )
 }
 
-export default App;
+export default App;  
