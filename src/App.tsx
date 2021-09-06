@@ -1,9 +1,10 @@
-import React, { useState} from "react"
+import React, { useEffect, useState} from "react"
 import { List } from "./components/List" 
 
 const App: React.FC = () => {
   const [arrList, setArrList] = useState<string[]>(['Trees', 'Plants', 'Flowers'])
   const [count, setCount] = useState<number>(1)
+  const [dataObj, setDataObj] = useState<any>()
 
   const getImages = (count: number) => {
     const numArr: number[] = []
@@ -18,14 +19,25 @@ const App: React.FC = () => {
   }
 
 
-  const data = async () => {
-    await fetch('https://ghibliapi.herokuapp.com/people')
+  useEffect(()=>{
+    fetch('https://ghibliapi.herokuapp.com/people')
       .then(res=> res.json())
-      .then(res=> console.log(res))
+      .then(res=> setDataObj(res))
       .catch(err=> console.log(err))
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
+    
+  console.log(dataObj)
+
+  function mergedObj<T extends object, R extends object>(a: T, b: R) {
+    return Object.assign({}, a, b)
   } 
 
-console.log(data())
+  const mergedRes = mergedObj({name: 'Jonas'}, {age: 53})
+
+  console.log(mergedRes.name);
+
+
 
   
 const mapperarr = (data: Array<string>) => data.map(item => <p key={Math.random()}>{item}</p>)
